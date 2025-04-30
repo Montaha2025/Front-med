@@ -70,10 +70,10 @@
       "TEXT": "Menu"
     },
     "DASHBOARDS": {
-      "TEXT": "Dashboards",
+      "TEXT": "Accueil",
       "BADGE": "04",
       "LIST": {
-        "DEFAULT": "Default",
+        "DEFAULT": "Vue d'ensemble",
         "SAAS": "Saas",
         "CRYPTO": "Crypto",
         "BLOG": "Blog",
@@ -169,16 +169,16 @@
     "TASKS": {
       "TEXT": "Tasks",
       "LIST": {
-        "TASKLIST": "Task List",
+        "TASKLIST": "Catégories",
         "KANBAN": "Kanban Board",
-        "CREATETASK": "Create Task"
+        "CREATETASK": "Créer catégorie"
       }
     },
     "CONTACTS": {
       "TEXT": "Contacts",
       "LIST": {
-        "USERGRID": "User Grid",
-        "USERLIST": "User List",
+        "USERGRID": "Clients",
+        "USERLIST": "médecins",
         "PROFILE": "Profile"
       }
     },

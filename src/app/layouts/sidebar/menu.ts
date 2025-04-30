@@ -17,7 +17,7 @@ export const MENU: MenuItem[] = [
                 link: '/dashboard',
                 parentId: 2
             },
-            {
+       /*     {
                 id: 4,
                 label: 'MENUITEMS.DASHBOARDS.LIST.SAAS',
                 link: '/dashboards/saas',
@@ -40,10 +40,10 @@ export const MENU: MenuItem[] = [
                 label: 'MENUITEMS.DASHBOARDS.LIST.JOBS',
                 link: '/dashboards/jobs',
                 parentId: 2,
-            },
+            },*/
         ]
     },
-    {
+   /* {
         id: 8,
         isLayout: true
     },
@@ -297,7 +297,7 @@ export const MENU: MenuItem[] = [
                 parentId: 45
             }
         ]
-    },
+    },*/
     {
         id: 49,
         label: 'MENUITEMS.CONTACTS.TEXT',
@@ -323,7 +323,7 @@ export const MENU: MenuItem[] = [
             }
         ]
     },
-    {
+    /*{
         id: 53,
         label: 'MENUITEMS.BLOG.TEXT',
         icon: 'bx-file',
@@ -408,6 +408,8 @@ export const MENU: MenuItem[] = [
             }
         ]
     },
+    */
+   /*
     {
         id: 66,
         label: 'MENUITEMS.PAGES.TEXT',
@@ -504,6 +506,8 @@ export const MENU: MenuItem[] = [
             }
         ]
     },
+    */
+   /*
     {
         id: 82,
         label: 'MENUITEMS.UTILITY.TEXT',
@@ -563,7 +567,8 @@ export const MENU: MenuItem[] = [
         id: 91,
         label: 'MENUITEMS.COMPONENTS.TEXT',
         isTitle: true
-    },
+    },*/
+    /*
     {
         id: 92,
         label: 'MENUITEMS.UIELEMENTS.TEXT',
@@ -709,6 +714,8 @@ export const MENU: MenuItem[] = [
             },
         ]
     },
+    */
+   /*
     {
         id: 116,
         label: 'MENUITEMS.FORMS.TEXT',
@@ -823,8 +830,8 @@ export const MENU: MenuItem[] = [
                 parentId: 131
             }
         ]
-    },
-    {
+    },*/
+    /*{
         id: 135,
         label: 'MENUITEMS.ICONS.TEXT',
         icon: 'bx-aperture',
@@ -879,7 +886,8 @@ export const MENU: MenuItem[] = [
                 parentId: 140
             }
         ]
-    },
+    },*/
+    /*
     {
         id: 143,
         label: 'MENUITEMS.MULTILEVEL.TEXT',
@@ -907,7 +915,8 @@ export const MENU: MenuItem[] = [
                     }
                 ]
             },
+            *
         ]
-    }
+    }*/
 ];
 
