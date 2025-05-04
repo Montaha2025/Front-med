@@ -1,6 +1,7 @@
-import { Role } from '../enums/role.enum';
+import { Role } from '../../shared/enums/role.enum';
+import { BaseInterface } from './base-interface';
 
-export interface Utilisateur {
+export interface Utilisateur extends BaseInterface {
   id?: number;
   nom: string;
   prenom: string;
