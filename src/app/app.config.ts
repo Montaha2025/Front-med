@@ -17,7 +17,7 @@ import { EffectsModule, provideEffects } from '@ngrx/effects';
 import { rootReducer } from './store';
 import { FilemanagerEffects } from './store/filemanager/filemanager.effects';
 import { OrderEffects } from './store/orders/order.effects';
-import { AuthenticationEffects } from './store/Authentication/authentication.effects';
+// import { AuthenticationEffects } from './store/Authentication/authentication.effects';
 import { CartEffects } from './store/Cart/cart.effects';
 import { ProjectEffects } from './store/ProjectsData/project.effects';
 import { usersEffects } from './store/UserGrid/user.effects';
@@ -34,6 +34,10 @@ import { routes } from './app.routes';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
+import { HTTP_INTERCEPTORS ,withFetch} from '@angular/common/http'; 
+import { AuthInterceptor } from './core/helpers/auth.interceptor'; 
+
+
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -43,11 +47,15 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),
     provideStore(rootReducer),
+    // Fournir l'interceptor AuthInterceptor
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    provideHttpClient(withFetch()),
+
     provideEffects(
       [
         FilemanagerEffects,
         OrderEffects,
-        AuthenticationEffects,
+        // AuthenticationEffects,
         CartEffects,
         ProjectEffects,
         usersEffects,
