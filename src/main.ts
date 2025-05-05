@@ -21,6 +21,8 @@ import { FakeBackendInterceptor } from './app/core/helpers/fake-backend';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 // import { JwtInterceptor } from './app/core/helpers/jwt.interceptor';
 import { ErrorInterceptor } from './app/core/helpers/error.interceptor';
+import { AuthGuard } from './app/core/guards/auth.guard';
+
 // Enable production mode if in production environment
 if (environment.production) {
   enableProdMode();
@@ -38,6 +40,7 @@ bootstrapApplication(AppComponent, {
     // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
+    AuthGuard,
     ...appConfig.providers
   ]
 })

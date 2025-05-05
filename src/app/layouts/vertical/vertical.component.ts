@@ -4,8 +4,8 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { EventService } from '../../core/services/event.service';
 import { RightsidebarComponent } from '../rightsidebar/rightsidebar.component';
 import { FooterComponent } from '../footer/footer.component';
-import { TopbarComponent } from '../topbar/topbar.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { TopbarComponent } from '../topbar/topbar.component';
 
 // import { SIDEBAR_TYPE } from "../layouts.model";
 

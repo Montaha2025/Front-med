@@ -5,11 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../../core/services/auth.service';
 import { environment } from '../../../../environments/environment';
 import { first } from 'rxjs/operators';
-import { UserProfileService } from '../../../core/services/user.service';
 import { Store } from '@ngrx/store';
 import { Register } from 'src/app/store/Authentication/authentication.actions';
 import { CommonModule } from '@angular/common';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { UtilisateurService } from 'src/app/core/services/utilisateur.service';
 
 @Component({
   selector: 'app-register2',
@@ -26,7 +26,7 @@ export class Register2Component implements OnInit {
   successmsg: any = false;
 
   constructor(private formBuilder: UntypedFormBuilder, private route: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService,
-    private userService: UserProfileService, public store: Store) { }
+    private utilisateurService: UtilisateurService, public store: Store) { }
   // set the currenr year
   year: number = new Date().getFullYear();
 

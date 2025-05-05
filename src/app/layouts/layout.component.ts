@@ -10,6 +10,8 @@ import { VerticalComponent } from './vertical/vertical.component';
 import { HorizontalComponent } from './horizontal/horizontal.component';
 import { TranslateService } from '@ngx-translate/core';
 
+
+
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',

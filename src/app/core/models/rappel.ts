@@ -13,4 +13,20 @@ export interface Rappel extends BaseInterface {
   medecin: Medecin;
   rendezVous: RendezVous;
 }
+export interface RappelRequest {
+  dateRappel: Date;
+  message: string;
+  etat: string;
+}
+export interface RappelUpdateRequest {
+  dateRappel: Date;
+  message: string;
+  etat: string;
+}
+export interface RappelResponse {
+  id: number;
+  dateRappel: Date;
+  message: string;
+  etat: string;
+}
 

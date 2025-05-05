@@ -15,4 +15,22 @@ export interface Prescription extends BaseInterface {
   rappel: Rappel[];
   dossierMedical: DossierMedical;
 }
+export interface PrescriptionRequest {
+  datePrescription: Date; 
+  medicament: string;
+  dose: number;
+  frequence: number;
+  duree: number;
+  patientId: number;
+}
+export interface PrescriptionResponse {
+  id: number;
+  datePrescription: Date; 
+  medicament: string;
+  dose: number;
+  frequence: number;
+  duree: number;
+}
+
+
 

@@ -15,3 +15,27 @@ export interface Suivi extends BaseInterface {
   patient: Patient;  
   dossierMedical: DossierMedical; 
 }
+export interface SuiviRequest {
+  patientId: number;
+  medecinId: number;
+  dateMesure: Date;
+  imc: Imc;
+  rythmeCardiaque: RythmeCardiaque;
+  tensionArterielle: TensionArterielle;
+}
+export interface SuiviResponse {
+  id: number;
+  dateMesure: Date;
+  imc: Imc;
+  rythmeCardiaque: RythmeCardiaque;
+  tensionArterielle: TensionArterielle;
+  medecinId: number;
+  patientId: number;
+}
+export interface SuiviUpdateRequest {
+  dateMesure: Date;
+  imc: Imc;
+  rythmeCardiaque: RythmeCardiaque;
+  tensionArterielle: TensionArterielle;
+}
+

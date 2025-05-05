@@ -1,10 +1,10 @@
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
-import { AuthenticationService } from '../../../core/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';  // Ajout de ActivatedRoute
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthenticationService } from 'src/app/core/services/auth.service';
 
 
 

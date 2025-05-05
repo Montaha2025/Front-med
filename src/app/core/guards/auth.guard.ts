@@ -48,12 +48,12 @@ import { AuthenticationService } from '../services/auth.service';
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(private authenticationService: AuthenticationService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const token = this.authService.getToken();
+    const token = this.authenticationService.getToken();
     const rolesAttendus: string[] = route.data['roles'] || []; // Récupère les rôles attendus
-    const roleUtilisateur: string = this.authService.getUserRole(); // Récupère le rôle de l'utilisateur
+    const roleUtilisateur: string = this.authenticationService.getUserRole(); // Récupère le rôle de l'utilisateur
 
     if (!token) {
       // Rediriger vers la page de login si aucun token

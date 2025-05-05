@@ -9,3 +9,12 @@ export interface Reclamation extends BaseInterface{
   medecin: Medecin; 
   patient: Patient; 
 }
+export class ReclamationResponse {
+  id: number;
+  sujet: string;
+  dateEnvoi: Date;
+}
+export class ReclamationRequest {
+    sujet: string;
+    dateEnvoi: Date;
+  } 
