@@ -24,13 +24,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
     },
     { path: "crypto-ico-landing", component: CyptolandingComponent },
-    {
-        path: '',
-        component: LayoutComponent,
-        loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule),
-        canActivate: [AuthGuard],
-        data: { roles: ['ROLE_ADMIN', 'ROLE_MEDECIN','ROLE_PATIENT' ] } 
-      },
+    
     //   {
     //     path: 'admin',
     //     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),

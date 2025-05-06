@@ -1,62 +1,81 @@
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-
-import { Router, ActivatedRoute } from '@angular/router';  // Ajout de ActivatedRoute
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, effect } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
-
-
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
 })
-
 export class LoginComponent implements OnInit {
-  
- 
-  loginForm: FormGroup<{
-    email: FormControl<string>,
-    motDePasse: FormControl<string>
+  loginForm!: FormGroup<{
+    email: FormControl<string>;
+    motDePasse: FormControl<string>;
   }>;
 
-  submitted: boolean = false;
-  error: string = '';
-  returnUrl: string = '';
-  fieldTextType: boolean = false;
+  submitted = false;
+  error = '';
+  returnUrl = '';
+  fieldTextType = false;
 
-  year: number = new Date().getFullYear();
+  year = new Date().getFullYear();
 
   constructor(
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute,  // Injection d'ActivatedRoute ici
-    private authenticationService: AuthenticationService
-  ) { }
+    private route: ActivatedRoute,
+    public authenticationService: AuthenticationService
+  ) {}
 
   ngOnInit() {
-    // Vérifie si l'utilisateur est déjà connecté
-    if (localStorage.getItem('jwtToken')) {
+    // Rediriger si déjà connecté
+    if (this.authenticationService.token()) {
       this.router.navigate(['/']);
     }
-  
+
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      motDePasse: ['', [Validators.required]]
+      motDePasse: ['', [Validators.required]],
     });
-    
-  
-    // Retour de l'URL
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-  }
-  
+   
 
-  // Récupération des contrôles de formulaire pour simplifier l'accès
-  get f() { return this.loginForm.controls; }
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    // Réagir à une erreur éventuelle
+    effect(() => {
+      const error = this.authenticationService.error();
+      if (error) {
+        this.error = error;
+      }
+    });
+
+    // Réagir à une authentification réussie
+    effect(() => {
+      if (this.authenticationService.isAuthenticated()) {
+        const token = this.authenticationService.token();
+        if (token) {
+          localStorage.setItem('jwtToken', token);
+          this.router.navigate([this.returnUrl]);
+        }
+      }
+    });
+  }
+
+  get f() {
+    return this.loginForm.controls;
+  }
 
   onSubmit() {
     this.submitted = true;
@@ -66,33 +85,18 @@ export class LoginComponent implements OnInit {
     }
 
     const email = this.f['email'].value;
-    const motDePasse = this.f['motDePasse'].value;  
+    const motDePasse = this.f['motDePasse'].value;
 
-    // Appel à l'API pour la connexion
-    this.authenticationService.login({ email, motDePasse }).subscribe({
-      next: (response) => {
-        if (response && response.token) {
-          // Sauvegarde du token et des rôles dans localStorage
-          this.authenticationService.saveToken(response.token);
-          if (response.roles) {
-            this.authenticationService.saveUserRoles(response.roles);
-          }
-          // Redirection vers la page d'accueil ou vers l'URL souhaitée
-          this.router.navigate([this.returnUrl]);
-        } else {
-          this.error = 'Authentification échouée. Vérifiez vos identifiants.';
-        }
-      },
-      error: (err) => {
-        this.error = 'Une erreur est survenue lors de la connexion. Veuillez réessayer.';
-      }
-    });
+    // Appel à l'authService, sans subscribe car déjà géré en interne
+    this.authenticationService.login(email, motDePasse);
   }
+  
 
-  // Fonction pour afficher/masquer le mot de passe
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
 }
+
+
 
 

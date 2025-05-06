@@ -16,7 +16,7 @@
               </div>
             </div>
           </div>
-          <div class="card-body pt-0">
+          <div class="card-body pt-0"> 
             <div>
               <a routerLink="/">
                 <div class="avatar-md profile-user-wid mb-4">
@@ -28,9 +28,12 @@
             </div>
             <div class="p-2">
               <form class="form-horizontal" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+               
 
-                <alert *ngIf="error" type="danger" [dismissible]="false">{{ error }}</alert>
-
+                <alert *ngIf="authenticationService.error()" type="danger" [dismissible]="false">
+                  {{ authenticationService.error() }}
+                </alert>
+                
                 <div class="mb-3">
                   <label for="email">Email</label>
                   <input type="email" formControlName="email" class="form-control" id="email" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
@@ -39,6 +42,7 @@
                     <div *ngIf="f.email.errors.email">L'adresse email doit être valide.</div>
                   </div>
                 </div>
+
 
                 <div class="mb-3">
                   <label for="password">MotDePasse</label>
@@ -68,6 +72,7 @@
 
                 <div class="mt-3 d-grid">
                   <button class="btn btn-primary" type="submit">Se connecter</button>
+                  
                 </div>
 
                 <div class="mt-4 text-center">
