@@ -5,7 +5,7 @@ import { Reclamation } from "./reclamation";
 import { Prescription } from "./prescription";
 import { Rappel } from "./rappel";
 import { Disponibilite } from "./disponibilite";
-import { Utilisateur } from "./utilisateur";
+import { Utilisateur, UtilisateurResponse } from "./utilisateur";
 
 export interface Medecin extends Utilisateur {
   specialite: string;
@@ -18,4 +18,13 @@ export interface Medecin extends Utilisateur {
   rappel: Rappel[];  
   disponibilite: Disponibilite[];  
 }
+export interface MedecinResponse extends UtilisateurResponse{
+  specialite: string;
+  description: string;
+}
+
+
+
+
+
 

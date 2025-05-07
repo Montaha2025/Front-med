@@ -1,7 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-
 import { catchError, of, tap } from 'rxjs';
 import { PrescriptionRequest, PrescriptionResponse } from '../models/prescription';
 
@@ -13,18 +12,22 @@ export class PrescriptionService {
 
   // Signal to store the list of prescriptions
   private _prescriptions = signal<PrescriptionResponse[]>([]);
-  public prescriptions = this._prescriptions;
 
-  // Signal for loading and errors
-  isLoading = signal<boolean>(false);
-  authError = signal<string | null>(null);
+  // Signals for loading and errors
+  private _isLoading = signal<boolean>(false);
+  private _authError = signal<string | null>(null);
+
+  // Public computed getters
+  prescriptions = computed(() => this._prescriptions());
+  isLoading = computed(() => this._isLoading());
+  authError = computed(() => this._authError());
 
   constructor(private http: HttpClient) {}
 
   // Load all prescriptions
   loadAllPrescriptions(page: number = 0, size: number = 10): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .get<{ content: PrescriptionResponse[] }>(
         `${this.apiUrl}?page=${page}&size=${size}`
@@ -32,13 +35,13 @@ export class PrescriptionService {
       .pipe(
         tap((response) => {
           this._prescriptions.set(response.content); // Update the prescriptions list
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error loading prescriptions'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of([]); // Return empty array on error
         })
       )
@@ -47,8 +50,8 @@ export class PrescriptionService {
 
   // Create a new prescription
   createPrescription(prescriptionRequest: PrescriptionRequest): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .post<PrescriptionResponse>(this.apiUrl, prescriptionRequest)
       .pipe(
@@ -57,13 +60,13 @@ export class PrescriptionService {
             ...prescriptions,
             newPrescription,
           ]);
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error creating prescription'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
@@ -72,20 +75,20 @@ export class PrescriptionService {
 
   // Get prescription by ID
   getPrescriptionById(prescriptionId: number): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .get<PrescriptionResponse>(`${this.apiUrl}/Prescription/${prescriptionId}`)
       .pipe(
         tap((prescription) => {
           // Logic to handle a single prescription if necessary
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error loading prescription'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
@@ -94,8 +97,8 @@ export class PrescriptionService {
 
   // Delete a prescription
   deletePrescription(prescriptionId: number): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .delete<void>(`${this.apiUrl}/Prescription/${prescriptionId}`)
       .pipe(
@@ -103,13 +106,13 @@ export class PrescriptionService {
           this._prescriptions.update((prescriptions) =>
             prescriptions.filter((prescription) => prescription.id !== prescriptionId)
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error deleting prescription'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
@@ -118,8 +121,8 @@ export class PrescriptionService {
 
   // Assign prescription to patient
   assignPrescriptionToPatient(patientId: number, prescriptionId: number): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .post<PrescriptionResponse>(`${this.apiUrl}/${patientId}/prescriptions/${prescriptionId}`, {})
       .pipe(
@@ -129,13 +132,13 @@ export class PrescriptionService {
               prescription.id === assignedPrescription.id ? assignedPrescription : prescription
             )
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error assigning prescription to patient'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
@@ -144,8 +147,8 @@ export class PrescriptionService {
 
   // Assign prescription to medecin
   assignPrescriptionToMedecin(medecinId: number, prescriptionId: number): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .post<PrescriptionResponse>(`${this.apiUrl}/${medecinId}/prescriptions/${prescriptionId}`, {})
       .pipe(
@@ -155,17 +158,18 @@ export class PrescriptionService {
               prescription.id === assignedPrescription.id ? assignedPrescription : prescription
             )
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error assigning prescription to medecin'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
       .subscribe();
   }
 }
+
 

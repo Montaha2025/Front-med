@@ -19,8 +19,8 @@ export class AuthenticationService {
 
   token = this._token;
   error = this._error;
-  
   loading = this._loading;
+  
   isAuthenticated = computed(() => this._token() !== null);
 
   constructor(private http: HttpClient) {

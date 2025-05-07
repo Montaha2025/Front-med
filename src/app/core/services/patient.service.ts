@@ -1,10 +1,11 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PatientResponse } from '../models/patient.model';
-import { Page } from '../models/page.model';
+
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { PatientResponse } from '../models/patient';
+import { Page } from '../models/page.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,9 @@ export class PatientService {
   selectedPatient = computed(() => this._selectedPatient());
   isLoading = computed(() => this._isLoading());
   error = computed(() => this._error());
+
+
+  
 
   constructor(private http: HttpClient) {}
 

@@ -5,7 +5,7 @@ import { Reclamation } from "./reclamation";
 import { Prescription } from "./prescription";
 import { Suivi } from "./suivi";
 import { Rappel } from "./rappel";
-import { Utilisateur } from "./utilisateur";
+import { Utilisateur, UtilisateurResponse } from "./utilisateur";
 
 export interface Patient extends Utilisateur {
   dateNaissance: Date;
@@ -18,3 +18,12 @@ export interface Patient extends Utilisateur {
   suivi: Suivi[];
   rappel: Rappel[];
 }
+export interface PatientResponse extends UtilisateurResponse{
+  dateNaissance: Date;
+  numeroDossier: string;
+  sexe: string;
+
+
+}
+
+

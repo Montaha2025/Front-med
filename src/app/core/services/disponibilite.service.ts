@@ -1,7 +1,6 @@
-import { Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, signal, computed } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-
 import { catchError, of, tap } from 'rxjs';
 import { DisponibiliteRequest, DisponibiliteResponse, DisponibiliteUpdateRequest } from '../models/disponibilite';
 
@@ -13,18 +12,20 @@ export class DisponibiliteService {
 
   // Signal to store the list of disponibilites
   private _disponibilites = signal<DisponibiliteResponse[]>([]);
-  public disponibilites = this._disponibilites;
+  private _isLoading = signal<boolean>(false);
+  private _authError = signal<string | null>(null);
 
-  // Signal for loading and errors
-  isLoading = signal<boolean>(false);
-  authError = signal<string | null>(null);
+  // Public computed getters
+  disponibilites = computed(() => this._disponibilites());
+  isLoading = computed(() => this._isLoading());
+  authError = computed(() => this._authError());
 
   constructor(private http: HttpClient) {}
 
   // Load all disponibilites
   loadAllDisponibilites(page: number = 0, size: number = 10): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .get<{ content: DisponibiliteResponse[] }>(
         `${this.apiUrl}?page=${page}&size=${size}`
@@ -32,13 +33,13 @@ export class DisponibiliteService {
       .pipe(
         tap((response) => {
           this._disponibilites.set(response.content); // Update the disponibilites list
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error loading disponibilites'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of([]); // Return empty array on error
         })
       )
@@ -47,8 +48,8 @@ export class DisponibiliteService {
 
   // Create a new disponibilite
   createDisponibilite(disponibiliteRequest: DisponibiliteRequest): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .post<DisponibiliteResponse>(this.apiUrl, disponibiliteRequest)
       .pipe(
@@ -57,13 +58,13 @@ export class DisponibiliteService {
             ...disponibilites,
             newDisponibilite,
           ]);
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error creating disponibilite'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
@@ -75,8 +76,8 @@ export class DisponibiliteService {
     disponibiliteId: number,
     disponibiliteUpdateRequest: DisponibiliteUpdateRequest
   ): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .put<void>(`${this.apiUrl}/${disponibiliteId}`, disponibiliteUpdateRequest)
       .pipe(
@@ -88,13 +89,13 @@ export class DisponibiliteService {
                 : disponibilite
             )
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error updating disponibilite'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
@@ -103,8 +104,8 @@ export class DisponibiliteService {
 
   // Delete a disponibilite
   deleteDisponibilite(disponibiliteId: number): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .delete<void>(`${this.apiUrl}/${disponibiliteId}`)
       .pipe(
@@ -114,13 +115,13 @@ export class DisponibiliteService {
               (disponibilite) => disponibilite.id !== disponibiliteId
             )
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error deleting disponibilite'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
@@ -129,20 +130,20 @@ export class DisponibiliteService {
 
   // Get disponibilite by ID
   getDisponibiliteById(disponibiliteId: number): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .get<DisponibiliteResponse>(`${this.apiUrl}/disponibilite/${disponibiliteId}`)
       .pipe(
         tap((disponibilite) => {
           // Logic to handle the single disponibilite if necessary
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error loading disponibilite'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
@@ -154,8 +155,8 @@ export class DisponibiliteService {
     medecinId: number,
     disponibiliteId: number
   ): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .post<DisponibiliteResponse>(`${this.apiUrl}/${medecinId}/disponibilites/${disponibiliteId}`, {})
       .pipe(
@@ -167,17 +168,18 @@ export class DisponibiliteService {
                 : disponibilite
             )
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error assigning disponibilite to medecin'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
       .subscribe();
   }
 }
+
 

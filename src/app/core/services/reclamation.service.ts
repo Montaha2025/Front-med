@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
@@ -11,34 +11,32 @@ import { ReclamationRequest, ReclamationResponse } from '../models/reclamation';
 export class ReclamationService {
   private apiUrl = `${environment.apiUrl}/api/v1/reclamations`;
 
-  // Signal to store the list of reclamations
+  // Private signals to store the data
   private _reclamations = signal<ReclamationResponse[]>([]);
-  public reclamations = this._reclamations;
+  private _authError = signal<string | null>(null);
+  private _isLoading = signal<boolean>(false);
 
-  // Signal for loading and errors
-  isLoading = signal<boolean>(false);
-  authError = signal<string | null>(null);
+  // Public computed getters
+  public reclamations = computed(() => this._reclamations());
+  public authError = computed(() => this._authError());
+  public isLoading = computed(() => this._isLoading());
 
   constructor(private http: HttpClient) {}
 
   // Load all reclamations
   loadAllReclamations(page: number = 0, size: number = 10): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
-      .get<{ content: ReclamationResponse[] }>(
-        `${this.apiUrl}?page=${page}&size=${size}`
-      )
+      .get<{ content: ReclamationResponse[] }>(`${this.apiUrl}?page=${page}&size=${size}`)
       .pipe(
         tap((response) => {
           this._reclamations.set(response.content); // Update the reclamations list
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
-            error?.error?.message || 'Error loading reclamations'
-          );
-          this.isLoading.set(false);
+          this._authError.set(error?.error?.message || 'Error loading reclamations');
+          this._isLoading.set(false);
           return of([]); // Return empty array on error
         })
       )
@@ -47,8 +45,8 @@ export class ReclamationService {
 
   // Create a new reclamation
   createReclamation(reclamationRequest: ReclamationRequest): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .post<ReclamationResponse>(this.apiUrl, reclamationRequest)
       .pipe(
@@ -57,13 +55,11 @@ export class ReclamationService {
             ...reclamations,
             newReclamation,
           ]);
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
-            error?.error?.message || 'Error creating reclamation'
-          );
-          this.isLoading.set(false);
+          this._authError.set(error?.error?.message || 'Error creating reclamation');
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
@@ -72,8 +68,8 @@ export class ReclamationService {
 
   // Assign reclamation to a doctor
   assignReclamationToMedecin(medecinId: number, reclamationId: number): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .post<ReclamationResponse>(
         `${this.apiUrl}/${medecinId}/reclamations/${reclamationId}`,
@@ -86,13 +82,13 @@ export class ReclamationService {
               r.id === updatedReclamation.id ? updatedReclamation : r
             )
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error assigning reclamation to doctor'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
@@ -101,8 +97,8 @@ export class ReclamationService {
 
   // Assign reclamation to a patient
   assignReclamationToPatient(patientId: number, reclamationId: number): void {
-    this.isLoading.set(true);
-    this.authError.set(null);
+    this._isLoading.set(true);
+    this._authError.set(null);
     this.http
       .post<ReclamationResponse>(
         `${this.apiUrl}/${patientId}/reclamations/${reclamationId}`,
@@ -115,13 +111,13 @@ export class ReclamationService {
               r.id === updatedReclamation.id ? updatedReclamation : r
             )
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
         }),
         catchError((error) => {
-          this.authError.set(
+          this._authError.set(
             error?.error?.message || 'Error assigning reclamation to patient'
           );
-          this.isLoading.set(false);
+          this._isLoading.set(false);
           return of(null); // Return null on error
         })
       )
