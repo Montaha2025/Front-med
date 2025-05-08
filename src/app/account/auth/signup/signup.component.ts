@@ -33,9 +33,14 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      nom: ['', Validators.required],
+      prenom: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      motDePasse: ['', Validators.required],
+      age: ['', Validators.required],
+      telephone: ['', Validators.required],
+      adresse: ['', Validators.required],
+
     });
   }
 
@@ -48,13 +53,29 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // stop here if form is invalid
+    // Stop if form is invalid
+    if (this.signupForm.invalid) {
+        return;
+    }
 
+    const nom = this.f['nom'].value; 
+    const prenom = this.f['prenom'].value; 
     const email = this.f['email'].value;
-    const name = this.f['username'].value;
-    const password = this.f['password'].value;
+    const motDePasse = this.f['motDePasse'].value;
+    const age = this.f['age'].value;
+    const telephone = this.f['telephone'].value;
+    const adresse = this.f['adresse'].value;
 
-    //Dispatch Action
-    this.store.dispatch(Register({ email: email, username: name, password: password }));
-  }
+    // Dispatch Action (sending to the backend)
+    this.store.dispatch(Register({
+        nom: nom,
+        prenom: prenom,
+        email: email,
+        motDePasse: motDePasse,
+        age: age,
+        telephone: telephone,
+        adresse: adresse
+    }));
+}
+
 }

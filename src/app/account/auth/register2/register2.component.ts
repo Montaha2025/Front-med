@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { AuthenticationService } from '../../../core/services/auth.service';
-import { environment } from '../../../../environments/environment';
-import { first } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Register } from 'src/app/store/Authentication/authentication.actions';
 import { CommonModule } from '@angular/common';
@@ -15,35 +12,43 @@ import { UtilisateurService } from 'src/app/core/services/utilisateur.service';
   selector: 'app-register2',
   templateUrl: './register2.component.html',
   styleUrls: ['./register2.component.scss'],
-  standalone:true,
-  imports:[CommonModule,FormsModule,ReactiveFormsModule,SlickCarouselModule ]
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SlickCarouselModule]
 })
 export class Register2Component implements OnInit {
 
   signupForm: UntypedFormGroup;
-  submitted: any = false;
-  error: any = '';
-  successmsg: any = false;
+  submitted = false;
+  error = '';
+  successmsg = false;
 
-  constructor(private formBuilder: UntypedFormBuilder, private route: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService,
-    private utilisateurService: UtilisateurService, public store: Store) { }
-  // set the currenr year
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private utilisateurService: UtilisateurService,
+    public store: Store
+  ) {}
+
   year: number = new Date().getFullYear();
 
   ngOnInit(): void {
     document.body.classList.add("auth-body-bg");
 
     this.signupForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      nom: ['', Validators.required],
+      prenom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      motDePasse: ['', Validators.required],
+      age: ['', Validators.required],
+      telephone: ['', Validators.required],
+      adresse: ['', Validators.required]
     });
   }
 
-  // convenience getter for easy access to form fields
   get f() { return this.signupForm.controls; }
 
-  // swiper config
   slideConfig = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -51,17 +56,22 @@ export class Register2Component implements OnInit {
     dots: true
   };
 
-  /**
-   * On submit form
-   */
   onSubmit() {
     this.submitted = true;
 
-    const email = this.f['email'].value;
-    const name = this.f['name'].value;
-    const password = this.f['password'].value;
+    if (this.signupForm.invalid) return;
 
-    //Dispatch Action
-    this.store.dispatch(Register({ email: email, username: name, password: password }));
+    const formValues = this.signupForm.value;
+
+    this.store.dispatch(Register({
+      nom: formValues.nom,
+      prenom: formValues.prenom,
+      email: formValues.email,
+      motDePasse: formValues.motDePasse,
+      age: formValues.age,
+      telephone: formValues.telephone,
+      adresse: formValues.adresse
+    }));
   }
 }
+
