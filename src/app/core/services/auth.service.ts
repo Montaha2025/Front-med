@@ -88,7 +88,7 @@ export class AuthenticationService {
     telephone: string;
     adresse: string;
   }): Observable<AuthenticationResponse> {
-    return this.http.post<AuthenticationResponse>('http://localhost:8082/api/v1/auth/register', data);
+    return this.http.post<AuthenticationResponse>('http://localhost:8082/api/v1/auth/signup', data);
   }
 
   isAuthenticated$ = toObservable(this.isAuthenticated);

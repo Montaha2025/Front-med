@@ -11,13 +11,13 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideToastr } from 'ngx-toastr';
-import { provideStore, StoreModule } from '@ngrx/store';
+import { provideStore, StoreModule } from '@ngrx/store'; 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule, provideEffects } from '@ngrx/effects';
 import { rootReducer } from './store';
 import { FilemanagerEffects } from './store/filemanager/filemanager.effects';
 import { OrderEffects } from './store/orders/order.effects';
-// import { AuthenticationEffects } from './store/Authentication/authentication.effects';
+import { AuthenticationEffects } from './store/Authentication/authentication.effects';
 import { CartEffects } from './store/Cart/cart.effects';
 import { ProjectEffects } from './store/ProjectsData/project.effects';
 import { usersEffects } from './store/UserGrid/user.effects';
@@ -36,6 +36,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { HTTP_INTERCEPTORS ,withFetch} from '@angular/common/http'; 
 import { AuthInterceptor } from './core/helpers/auth.interceptor'; 
+import { AccountModule } from './account/account.module';
+import { ExtrapagesModule } from './extrapages/extrapages.module';
+import { PagesModule } from './pages/pages.module';
 
 
 
@@ -55,7 +58,7 @@ export const appConfig: ApplicationConfig = {
       [
         FilemanagerEffects,
         OrderEffects,
-        // AuthenticationEffects,
+        AuthenticationEffects,
         CartEffects,
         ProjectEffects,
         usersEffects,
@@ -79,6 +82,9 @@ export const appConfig: ApplicationConfig = {
           deps: [HttpClient]
         }
       }),
+      AccountModule,
+      PagesModule,
+      ExtrapagesModule,
     ),
     provideAnimations(),
     provideToastr(),

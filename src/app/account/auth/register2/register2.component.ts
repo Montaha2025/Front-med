@@ -7,6 +7,7 @@ import { Register } from 'src/app/store/Authentication/authentication.actions';
 import { CommonModule } from '@angular/common';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { UtilisateurService } from 'src/app/core/services/utilisateur.service';
+import { RootReducerState } from 'src/app/store';
 
 @Component({
   selector: 'app-register2',
@@ -21,6 +22,10 @@ export class Register2Component implements OnInit {
   submitted = false;
   error = '';
   successmsg = false;
+
+successMessage$ = this.store.select((state: RootReducerState) => state.auth.successMessage);
+
+
 
   constructor(
     private formBuilder: UntypedFormBuilder,

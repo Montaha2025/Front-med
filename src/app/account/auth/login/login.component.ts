@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
 
   year = new Date().getFullYear();
 
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -59,37 +60,43 @@ export class LoginComponent implements OnInit {
       if (error) {
         this.error = error;
       }
-    });
+    }); }
 
-    // Réagir à une authentification réussie
-    effect(() => {
-      if (this.authenticationService.isAuthenticated()) {
-        const token = this.authenticationService.token();
-        if (token) {
-          localStorage.setItem('jwtToken', token);
-          this.router.navigate([this.returnUrl]);
-        }
-      }
-    });
-  }
+   
+     
+
 
   get f() {
     return this.loginForm.controls;
   }
 
-  onSubmit() {
-    this.submitted = true;
 
-    if (this.loginForm.invalid) {
-      return;
-    }
 
-    const email = this.f['email'].value;
-    const motDePasse = this.f['motDePasse'].value;
+onSubmit() {
+  this.submitted = true;
 
-    // Appel à l'authService, sans subscribe car déjà géré en interne
-    this.authenticationService.login(email, motDePasse);
+  if (this.loginForm.invalid) {
+    return;
   }
+
+  const email = this.f['email'].value;
+  const motDePasse = this.f['motDePasse'].value;
+
+  this.authenticationService.login(email, motDePasse).subscribe({
+    next: (res) => {
+      if (res.token) {
+        localStorage.setItem('jwtToken', res.token);
+        this.router.navigate([this.returnUrl]);
+      }
+    },
+    error: (err) => {
+      console.error('Erreur lors de la connexion', err);
+      this.error = 'Erreur lors de la connexion';
+    }
+  });
+}
+
+
   
 
   toggleFieldTextType() {

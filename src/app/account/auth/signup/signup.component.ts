@@ -21,8 +21,9 @@ export class SignupComponent implements OnInit {
 
   signupForm: UntypedFormGroup;
   submitted: any = false;
-  error: any = 'fdsfsdfdsf';
+  error: any = '';
   successmsg: any = false;
+ 
 
   // set the currenr year
   year: number = new Date().getFullYear();
@@ -51,6 +52,7 @@ export class SignupComponent implements OnInit {
    * On submit form
    */
   onSubmit() {
+    console.log("Form submitted")
     this.submitted = true;
 
     // Stop if form is invalid

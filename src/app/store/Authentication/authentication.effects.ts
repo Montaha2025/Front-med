@@ -12,7 +12,6 @@ import {
 
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { AuthfakeauthenticationService } from 'src/app/core/services/authfake.service';
 import { UserProfileService } from 'src/app/core/services/user.service';
 
 @Injectable()
