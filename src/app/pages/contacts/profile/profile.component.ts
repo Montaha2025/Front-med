@@ -41,3 +41,11 @@ export class ProfileComponent implements OnInit {
     this.statData = statData;
   }
 }
+
+
+
+
+
+
+
+

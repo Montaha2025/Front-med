@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, of, tap } from 'rxjs';
 import { ChangeMotDePasseRequest } from '../models/change-mot-de-passe-request';
 import { UtilisateurUpdateRequest } from '../models/utilisateur-update-request';
+import { AuthenticationService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,8 @@ authError = computed(() => this._authError());
 isLoading = computed(() => this._isLoading());
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthenticationService) {}
+ 
   
    // Charger tous les utilisateurs
   loadUtilisateurs(page: number = 0, size: number = 10) {
@@ -124,6 +126,16 @@ findUtilisateurById(id: number) {
     })
   ).subscribe();
 }
+//charger currentUser
+loadCurrentUser() {
+  const id = this.authService.getIdFromToken();
+  if (id !== null) {
+    this.findUtilisateurById(id);
+  } else {
+    this._authError.set('Utilisateur non authentifié');
+  }
+}
+
 
   // Changer le mot de passe de l'utilisateur
 changeMotDePasse(request: ChangeMotDePasseRequest) {

@@ -90,6 +90,19 @@ export class AuthenticationService {
   }): Observable<AuthenticationResponse> {
     return this.http.post<AuthenticationResponse>('http://localhost:8082/api/v1/auth/signup', data);
   }
+  
+
+getIdFromToken(): number | null {
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+
+  // Décode le token
+  const decoded: any = this.decodeToken(token);
+  
+  // Récupère l'ID depuis le champ 'id'
+  return decoded?.id ?? null;
+}
+
 
   isAuthenticated$ = toObservable(this.isAuthenticated);
 }

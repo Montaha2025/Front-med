@@ -36,11 +36,15 @@ import { ChartModule } from './chart/chart.module';
 import { CalendarComponent } from './calendar/calendar.component';
 import { MapsModule } from './maps/maps.module';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ProfileComponent } from './contacts/profile/profile.component';
 
 @NgModule(
         {
-                declarations: [],
+                declarations: [
+                      
+                ],
                 imports: [CommonModule,
+                        ReactiveFormsModule,
                         FormsModule,
                         BsDropdownModule.forRoot(),
                         ModalModule.forRoot(),
