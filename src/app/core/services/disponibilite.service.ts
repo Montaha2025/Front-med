@@ -37,7 +37,7 @@ export class DisponibiliteService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error loading disponibilites'
+            error?.error?.message || 'Échec du chargement des disponibilités'
           );
           this._isLoading.set(false);
           return of([]); // Return empty array on error
@@ -62,7 +62,7 @@ export class DisponibiliteService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error creating disponibilite'
+            error?.error?.message || 'Échec de la création de la disponibilité'
           );
           this._isLoading.set(false);
           return of(null); // Return null on error
@@ -93,7 +93,7 @@ export class DisponibiliteService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error updating disponibilite'
+            error?.error?.message || 'Erreur lors de la mise à jour de la disponibilité'
           );
           this._isLoading.set(false);
           return of(null); // Return null on error
@@ -119,7 +119,7 @@ export class DisponibiliteService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error deleting disponibilite'
+            error?.error?.message || 'Erreur lors de la suppression de la disponibilité'
           );
           this._isLoading.set(false);
           return of(null); // Return null on error
@@ -141,7 +141,7 @@ export class DisponibiliteService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error loading disponibilite'
+            error?.error?.message || 'Erreur lors du chargement de la disponibilité'
           );
           this._isLoading.set(false);
           return of(null); // Return null on error
@@ -172,7 +172,7 @@ export class DisponibiliteService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error assigning disponibilite to medecin'
+            error?.error?.message || 'Erreur lors de l’attribution de la disponibilité au médecin'
           );
           this._isLoading.set(false);
           return of(null); // Return null on error

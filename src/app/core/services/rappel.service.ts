@@ -35,7 +35,7 @@ export class RappelService {
           this._isLoading.set(false);
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error loading rappels');
+          this._authError.set(error?.error?.message || 'Erreur lors du chargement des rappels');
           this._isLoading.set(false);
           return of([]); // Return empty array on error
         })
@@ -55,7 +55,7 @@ export class RappelService {
           this._isLoading.set(false);
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error creating rappel');
+          this._authError.set(error?.error?.message || 'Erreur lors de la création de rappel');
           this._isLoading.set(false);
           return of(null); // Return null on error
         })
@@ -79,7 +79,7 @@ export class RappelService {
           this._isLoading.set(false);
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error updating rappel');
+          this._authError.set(error?.error?.message || 'Erreur lors de la mise à jour de rappel');
           this._isLoading.set(false);
           return of(null); // Return null on error
         })
@@ -101,7 +101,7 @@ export class RappelService {
           this._isLoading.set(false);
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error deleting rappel');
+          this._authError.set(error?.error?.message || 'Erreur lors de la suppression de rappel');
           this._isLoading.set(false);
           return of(null); // Return null on error
         })
@@ -121,7 +121,7 @@ export class RappelService {
           this._isLoading.set(false);
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error loading rappel');
+          this._authError.set(error?.error?.message || 'Erreur lors du chargement de rappel');
           this._isLoading.set(false);
           return of(null); // Return null on error
         })
@@ -145,7 +145,7 @@ export class RappelService {
           this._isLoading.set(false);
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error assigning rappel to patient');
+          this._authError.set(error?.error?.message || 'Erreur lors de l’attribution de rappel au patient');
           this._isLoading.set(false);
           return of(null); // Return null on error
         })
@@ -169,7 +169,7 @@ export class RappelService {
           this._isLoading.set(false);
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error assigning rappel to medecin');
+          this._authError.set(error?.error?.message || 'Erreur lors de l’attribution de rappel au médecin');
           this._isLoading.set(false);
           return of(null); // Return null on error
         })

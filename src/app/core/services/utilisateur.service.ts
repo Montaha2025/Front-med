@@ -106,9 +106,8 @@ isLoading = computed(() => this._isLoading());
       })
     ).subscribe();
   } 
+  
   // récuperer un utilisateur spécifique
-
-
 findUtilisateurById(id: number) {
   this._isLoading.set(true);
   this._authError.set(null);
@@ -126,15 +125,7 @@ findUtilisateurById(id: number) {
     })
   ).subscribe();
 }
-//charger currentUser
-loadCurrentUser() {
-  const id = this.authService.getIdFromToken();
-  if (id !== null) {
-    this.findUtilisateurById(id);
-  } else {
-    this._authError.set('Utilisateur non authentifié');
-  }
-}
+
 
 
   // Changer le mot de passe de l'utilisateur

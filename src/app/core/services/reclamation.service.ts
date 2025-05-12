@@ -35,7 +35,7 @@ export class ReclamationService {
           this._isLoading.set(false);
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error loading reclamations');
+          this._authError.set(error?.error?.message || 'Erreur lors du chargement des réclamations');
           this._isLoading.set(false);
           return of([]); // Return empty array on error
         })
@@ -58,7 +58,7 @@ export class ReclamationService {
           this._isLoading.set(false);
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error creating reclamation');
+          this._authError.set(error?.error?.message || 'Erreur lors de la création de réclamation');
           this._isLoading.set(false);
           return of(null); // Return null on error
         })
@@ -86,7 +86,7 @@ export class ReclamationService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error assigning reclamation to doctor'
+            error?.error?.message || 'Erreur lors de l’attribution de réclamation au médecin '
           );
           this._isLoading.set(false);
           return of(null); // Return null on error
@@ -115,7 +115,7 @@ export class ReclamationService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error assigning reclamation to patient'
+            error?.error?.message || 'Erreur lors de l’attribution de réclamation au patient'
           );
           this._isLoading.set(false);
           return of(null); // Return null on error

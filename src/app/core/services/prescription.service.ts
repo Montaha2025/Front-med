@@ -39,7 +39,7 @@ export class PrescriptionService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error loading prescriptions'
+            error?.error?.message || 'Erreur lors du chargement des prescriptions'
           );
           this._isLoading.set(false);
           return of([]); // Return empty array on error
@@ -64,7 +64,7 @@ export class PrescriptionService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error creating prescription'
+            error?.error?.message || 'Erreur lors de la création de l’ordonnance'
           );
           this._isLoading.set(false);
           return of(null); // Return null on error
@@ -86,7 +86,7 @@ export class PrescriptionService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error loading prescription'
+            error?.error?.message || 'Erreur lors du chargement de l’ordonnance'
           );
           this._isLoading.set(false);
           return of(null); // Return null on error
@@ -110,7 +110,7 @@ export class PrescriptionService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error deleting prescription'
+            error?.error?.message || 'Erreur lors de la suppression de l’ordonnance'
           );
           this._isLoading.set(false);
           return of(null); // Return null on error
@@ -136,7 +136,7 @@ export class PrescriptionService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error assigning prescription to patient'
+            error?.error?.message || 'Erreur lors de l’attribution de l’ordonnance au patient'
           );
           this._isLoading.set(false);
           return of(null); // Return null on error
@@ -162,7 +162,7 @@ export class PrescriptionService {
         }),
         catchError((error) => {
           this._authError.set(
-            error?.error?.message || 'Error assigning prescription to medecin'
+            error?.error?.message || 'Erreur lors de l’attribution de l’ordonnance au médecin'
           );
           this._isLoading.set(false);
           return of(null); // Return null on error

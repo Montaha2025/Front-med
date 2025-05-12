@@ -36,7 +36,7 @@ export class SuiviService {
           this._isLoading.set(false); // Fin du chargement
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error loading suivis');
+          this._authError.set(error?.error?.message || 'Erreur lors du chargement des suivis');
           this._isLoading.set(false); // Fin du chargement
           return of([]); // Retourner un tableau vide en cas d'erreur
         })
@@ -56,7 +56,7 @@ export class SuiviService {
           this._isLoading.set(false); // Fin du chargement
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error loading suivis for doctor');
+          this._authError.set(error?.error?.message || 'Erreur lors du chargement des suivis du médecin');
           this._isLoading.set(false); // Fin du chargement
           return of([]); // Retourner un tableau vide en cas d'erreur
         })
@@ -76,7 +76,7 @@ export class SuiviService {
           this._isLoading.set(false); // Fin du chargement
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error creating suivi');
+          this._authError.set(error?.error?.message || 'Erreur lors de la création du suivi');
           this._isLoading.set(false); // Fin du chargement
           return of(null); // Retourner null en cas d'erreur
         })
@@ -100,7 +100,7 @@ export class SuiviService {
           this._isLoading.set(false); // Fin du chargement
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error updating suivi');
+          this._authError.set(error?.error?.message || 'Erreur lors de la mise à jour de suivi');
           this._isLoading.set(false); // Fin du chargement
           return of(null); // Retourner null en cas d'erreur
         })
@@ -122,7 +122,7 @@ export class SuiviService {
           this._isLoading.set(false); // Fin du chargement
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error deleting suivi');
+          this._authError.set(error?.error?.message || 'Erreur lors de la suppression de suivi');
           this._isLoading.set(false); // Fin du chargement
           return of(null); // Retourner null en cas d'erreur
         })
@@ -146,7 +146,7 @@ export class SuiviService {
           this._isLoading.set(false); // Fin du chargement
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error assigning suivi to medecin');
+          this._authError.set(error?.error?.message || 'Erreur lors de l’attribution du suivi au médecin');
           this._isLoading.set(false); // Fin du chargement
           return of(null); // Retourner null en cas d'erreur
         })
@@ -170,7 +170,7 @@ export class SuiviService {
           this._isLoading.set(false); // Fin du chargement
         }),
         catchError((error) => {
-          this._authError.set(error?.error?.message || 'Error assigning suivi to patient');
+          this._authError.set(error?.error?.message || 'Erreur lors de l’attribution du suivi au patient');
           this._isLoading.set(false); // Fin du chargement
           return of(null); // Retourner null en cas d'erreur
         })
