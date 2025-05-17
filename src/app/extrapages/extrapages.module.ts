@@ -2,8 +2,11 @@ import { NgModule } from '@angular/core';
 
 import { ExtrapagesRoutingModule } from './extrapages-routing.module';
 
+
 @NgModule({
-  declarations: [],
+  declarations: [
+   
+  ],
   imports: [
     ExtrapagesRoutingModule,
   ]

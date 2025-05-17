@@ -63,8 +63,7 @@ export class LoginComponent implements OnInit {
     }); }
 
    
-     
-
+    
 
   get f() {
     return this.loginForm.controls;
@@ -85,19 +84,27 @@ onSubmit() {
   this.authenticationService.login(email, motDePasse).subscribe({
     next: (res) => {
       if (res.token) {
-        localStorage.setItem('jwtToken', res.token);
-        this.router.navigate([this.returnUrl]);
+        // Le token est déjà stocké par le service, on peut directement récupérer le rôle
+        const role = this.authenticationService.getRoleFromToken();
+
+        // Redirection selon rôle
+        if (role === 'ROLE_ADMIN') {
+          this.router.navigate(['/admin/dashboard']);
+        } else if (role === 'ROLE_MEDECIN') {
+          this.router.navigate(['/medecin/dashboard']);
+        } else if (role === 'ROLE_PATIENT') {
+          this.router.navigate(['/patient/dashboard']);
+        } else {
+          this.router.navigate(['/unauthorized']);
+        }
       }
     },
     error: (err) => {
       console.error('Erreur lors de la connexion', err);
-      this.error = 'Erreur lors de la connexion';
+      this.error = 'Erreur lors de la connexion. Vérifiez vos identifiants.';
     }
   });
 }
-
-
-  
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
