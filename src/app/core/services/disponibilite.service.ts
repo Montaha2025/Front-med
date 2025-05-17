@@ -150,36 +150,7 @@ export class DisponibiliteService {
       .subscribe();
   }
 
-  // Assign disponibilite to medecin
-  assignDisponibiliteToMedecin(
-    medecinId: number,
-    disponibiliteId: number
-  ): void {
-    this._isLoading.set(true);
-    this._authError.set(null);
-    this.http
-      .post<DisponibiliteResponse>(`${this.apiUrl}/${medecinId}/disponibilites/${disponibiliteId}`, {})
-      .pipe(
-        tap((assignedDisponibilite) => {
-          this._disponibilites.update((disponibilites) =>
-            disponibilites.map((disponibilite) =>
-              disponibilite.id === assignedDisponibilite.id
-                ? assignedDisponibilite
-                : disponibilite
-            )
-          );
-          this._isLoading.set(false);
-        }),
-        catchError((error) => {
-          this._authError.set(
-            error?.error?.message || 'Erreur lors de l’attribution de la disponibilité au médecin'
-          );
-          this._isLoading.set(false);
-          return of(null); // Return null on error
-        })
-      )
-      .subscribe();
-  }
+ 
 }
 
 

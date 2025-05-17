@@ -71,7 +71,7 @@ export class ReclamationService {
     this._isLoading.set(true);
     this._authError.set(null);
     this.http
-      .post<ReclamationResponse>(
+      .put<ReclamationResponse>(
         `${this.apiUrl}/${medecinId}/reclamations/${reclamationId}`,
         {}
       )
@@ -100,8 +100,8 @@ export class ReclamationService {
     this._isLoading.set(true);
     this._authError.set(null);
     this.http
-      .post<ReclamationResponse>(
-        `${this.apiUrl}/${patientId}/reclamations/${reclamationId}`,
+      .put<ReclamationResponse>(
+        `${this.apiUrl}/${patientId}/patients/${reclamationId}`,
         {}
       )
       .pipe(

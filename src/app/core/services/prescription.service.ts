@@ -78,7 +78,7 @@ export class PrescriptionService {
     this._isLoading.set(true);
     this._authError.set(null);
     this.http
-      .get<PrescriptionResponse>(`${this.apiUrl}/Prescription/${prescriptionId}`)
+      .get<PrescriptionResponse>(`${this.apiUrl}/prescription/${prescriptionId}`)
       .pipe(
         tap((prescription) => {
           // Logic to handle a single prescription if necessary
@@ -120,56 +120,56 @@ export class PrescriptionService {
   }
 
   // Assign prescription to patient
-  assignPrescriptionToPatient(patientId: number, prescriptionId: number): void {
-    this._isLoading.set(true);
-    this._authError.set(null);
-    this.http
-      .post<PrescriptionResponse>(`${this.apiUrl}/${patientId}/prescriptions/${prescriptionId}`, {})
-      .pipe(
-        tap((assignedPrescription) => {
-          this._prescriptions.update((prescriptions) =>
-            prescriptions.map((prescription) =>
-              prescription.id === assignedPrescription.id ? assignedPrescription : prescription
-            )
-          );
-          this._isLoading.set(false);
-        }),
-        catchError((error) => {
-          this._authError.set(
-            error?.error?.message || 'Erreur lors de l’attribution de l’ordonnance au patient'
-          );
-          this._isLoading.set(false);
-          return of(null); // Return null on error
-        })
-      )
-      .subscribe();
-  }
+assignPrescriptionToPatient(patientId: number, prescriptionId: number): void {
+  this._isLoading.set(true);
+  this._authError.set(null);
+  this.http
+    .put<PrescriptionResponse>(`${this.apiUrl}/${patientId}/prescriptions/${prescriptionId}`, {})
+    .pipe(
+      tap((assignedPrescription) => {
+        this._prescriptions.update((prescriptions) =>
+          prescriptions.map((prescription) =>
+            prescription.id === assignedPrescription.id ? assignedPrescription : prescription
+          )
+        );
+        this._isLoading.set(false);
+      }),
+      catchError((error) => {
+        this._authError.set(
+          error?.error?.message || 'Erreur lors de l’attribution de l’ordonnance au patient'
+        );
+        this._isLoading.set(false);
+        return of(null);
+      })
+    )
+    .subscribe();
+}
+ // Assign prescription to medecin
+assignPrescriptionToMedecin(medecinId: number, prescriptionId: number): void {
+  this._isLoading.set(true);
+  this._authError.set(null);
+  this.http
+    .put<PrescriptionResponse>(`${this.apiUrl}/medecin/${medecinId}/prescriptions/${prescriptionId}`, {})
+    .pipe(
+      tap((assignedPrescription) => {
+        this._prescriptions.update((prescriptions) =>
+          prescriptions.map((prescription) =>
+            prescription.id === assignedPrescription.id ? assignedPrescription : prescription
+          )
+        );
+        this._isLoading.set(false);
+      }),
+      catchError((error) => {
+        this._authError.set(
+          error?.error?.message || 'Erreur lors de l’attribution de l’ordonnance au médecin'
+        );
+        this._isLoading.set(false);
+        return of(null);
+      })
+    )
+    .subscribe();
+}
 
-  // Assign prescription to medecin
-  assignPrescriptionToMedecin(medecinId: number, prescriptionId: number): void {
-    this._isLoading.set(true);
-    this._authError.set(null);
-    this.http
-      .post<PrescriptionResponse>(`${this.apiUrl}/${medecinId}/prescriptions/${prescriptionId}`, {})
-      .pipe(
-        tap((assignedPrescription) => {
-          this._prescriptions.update((prescriptions) =>
-            prescriptions.map((prescription) =>
-              prescription.id === assignedPrescription.id ? assignedPrescription : prescription
-            )
-          );
-          this._isLoading.set(false);
-        }),
-        catchError((error) => {
-          this._authError.set(
-            error?.error?.message || 'Erreur lors de l’attribution de l’ordonnance au médecin'
-          );
-          this._isLoading.set(false);
-          return of(null); // Return null on error
-        })
-      )
-      .subscribe();
-  }
 }
 
 

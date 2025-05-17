@@ -13,11 +13,10 @@ export interface DossierMedical extends BaseInterface {
   suivis: Suivi[];
 }
 
-export interface DossierMedicalRequest  {
-  patient: Patient;
-  medecin: Medecin;
+export interface DossierMedicalRequest {
+  patientId: number;
+  medecinId: number;
   motifConsultation: string;
-
 }
 
 

@@ -126,40 +126,40 @@ export class RendezVousService {
   }
 
   // Assign Rendez-vous to a patient
-  assignToPatient(rendezvousId: number, patientId: number): void {
-    this._isLoading.set(true);
-    this._error.set(null);
+ assignToPatient(rendezvousId: number, patientId: number): void {
+  this._isLoading.set(true);
+  this._error.set(null);
 
-    this.http.put<RendezVousResponse>(`${this.apiUrl}/rendezvous/${rendezvousId}/assign-to-patient/${patientId}`, {}).pipe(
-      tap((data) => {
-        this._rendezVous.set(data);
-        this._isLoading.set(false);
-      }),
-      catchError((err) => {
-        this._error.set(err?.error?.message || 'Erreur lors de l\'assignation au patient');
-        this._isLoading.set(false);
-        return of(null);
-      })
-    ).subscribe();
-  }
+  this.http.put<RendezVousResponse>(`${this.apiUrl}/${rendezvousId}/assign-to-patient/${patientId}`, {}).pipe(
+    tap((data) => {
+      this._rendezVous.set(data);
+      this._isLoading.set(false);
+    }),
+    catchError((err) => {
+      this._error.set(err?.error?.message || 'Erreur lors de l\'assignation au patient');
+      this._isLoading.set(false);
+      return of(null);
+    })
+  ).subscribe();
+}
+// Assign Rendez-vous to a Medecin
+assignToMedecin(rendezvousId: number, medecinId: number): void {
+  this._isLoading.set(true);
+  this._error.set(null);
 
-  // Assign Rendez-vous to a doctor
-  assignToMedecin(rendezvousId: number, medecinId: number): void {
-    this._isLoading.set(true);
-    this._error.set(null);
+  this.http.put<RendezVousResponse>(`${this.apiUrl}/${rendezvousId}/assign-to-medecin/${medecinId}`, {}).pipe(
+    tap((data) => {
+      this._rendezVous.set(data);
+      this._isLoading.set(false);
+    }),
+    catchError((err) => {
+      this._error.set(err?.error?.message || 'Erreur lors de l\'assignation au médecin');
+      this._isLoading.set(false);
+      return of(null);
+    })
+  ).subscribe();
+}
 
-    this.http.put<RendezVousResponse>(`${this.apiUrl}/rendezvous/${rendezvousId}/assign-to-medecin/${medecinId}`, {}).pipe(
-      tap((data) => {
-        this._rendezVous.set(data);
-        this._isLoading.set(false);
-      }),
-      catchError((err) => {
-        this._error.set(err?.error?.message || 'Erreur lors de l\'assignation au médecin');
-        this._isLoading.set(false);
-        return of(null);
-      })
-    ).subscribe();
-  }
 }
 
 
